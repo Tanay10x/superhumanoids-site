@@ -1,0 +1,15 @@
+<mujoco model="arm live">
+  <include file="arm.xml"/>
+  <option timestep="0.002"/>
+  <worldbody>
+    <geom name="floor" size="0 0 0.05" type="plane" rgba="0.3 0.3 0.3 1"/>
+    <body name="cube" pos="0.5 0.15 0.025">
+      <freejoint/>
+      <geom name="cube" type="box" size="0.025 0.025 0.025" rgba="0.09 0.22 0.62 1" mass="0.08" friction="1.2 0.01 0.001"/>
+    </body>
+    <body name="cube2" pos="0.45 -0.2 0.025">
+      <freejoint/>
+      <geom name="cube2" type="box" size="0.025 0.025 0.025" rgba="0.8 0.8 0.8 1" mass="0.08" friction="1.2 0.01 0.001"/>
+    </body>
+  </worldbody>
+</mujoco>

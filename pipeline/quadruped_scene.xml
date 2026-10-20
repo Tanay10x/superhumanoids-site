@@ -1,0 +1,7 @@
+<mujoco model="quadruped live">
+  <include file="quadruped.xml"/>
+  <option timestep="0.002"/>
+  <worldbody>
+    <geom name="floor" size="0 0 0.05" type="plane" rgba="0.3 0.3 0.3 1" friction="1 0.005 0.0001"/>
+  </worldbody>
+</mujoco>

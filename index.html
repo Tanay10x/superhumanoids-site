@@ -2,176 +2,212 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#08090b">
-  <meta name="description" content="Super Humanoids is developing foundation models for robots across bodies, tasks and environments.">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1d1e1f">
+  <meta name="description" content="Super Humanoids is building foundation models for robots: one shared intelligence that can perceive, reason and act across different bodies, tasks and environments.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://superhumanoids.ai/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Super Humanoids">
-  <meta property="og:title" content="Super Humanoids — One intelligence. Many bodies.">
+  <meta property="og:title" content="Super Humanoids: one intelligence, many bodies">
   <meta property="og:description" content="Foundation models for robots across bodies, tasks and environments.">
   <meta property="og:url" content="https://superhumanoids.ai/">
-  <meta property="og:image" content="https://superhumanoids.ai/assets/sequence.png">
+  <meta property="og:image" content="https://superhumanoids.ai/assets/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Super Humanoids — One intelligence. Many bodies.">
-  <meta name="twitter:description" content="Foundation models for robots across bodies, tasks and environments.">
-  <meta name="twitter:image" content="https://superhumanoids.ai/assets/sequence.png">
-  <title>Super Humanoids — One intelligence. Many bodies.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="twitter:image" content="https://superhumanoids.ai/assets/og.jpg">
+  <title>Super Humanoids</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/frames/humanoid/d/0000.webp" media="(min-width: 721px)">
+  <link rel="preload" as="image" href="assets/frames/humanoid/m/0000.webp" media="(max-width: 720px)">
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="update.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js" } }</script>
 </head>
 <body>
-  <header class="nav shell">
-    <a class="brand" href="#top" aria-label="Super Humanoids home">SUPER<span>·</span>HUMANOIDS</a>
-    <nav aria-label="Main navigation">
-      <a href="#technology">Model</a><a href="#product">Embodiments</a><a href="#roadmap">Roadmap</a>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="Super Humanoids, back to top" translate="no">
+      Super Humanoids
+    </a>
+    <nav aria-label="Main">
+      <a href="#bodies">Bodies</a>
+      <a href="#live">Try it</a>
+      <a href="#approach">Approach</a>
+      <a href="#roadmap">Roadmap</a>
     </nav>
-    <a class="nav-cta" href="mailto:hello@superhumanoids.ai">Talk to us <span>↗</span></a>
+    <a class="nav-cta" href="mailto:hello@superhumanoids.ai">Contact us</a>
   </header>
 
-  <main id="top">
-    <section class="hero shell">
-      <div class="hero-copy reveal">
-        <p class="eyebrow"><span class="pulse"></span> Robotics foundation models</p>
-        <h1>One intelligence.<br><em>Many bodies.</em></h1>
-        <p class="lede">Super Humanoids is developing a foundation-model approach to robotics: shared intelligence intended to perceive, reason and control across different bodies, tasks and environments.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#technology">Explore the model thesis <span>↓</span></a>
-          <a class="button ghost" href="mailto:hello@superhumanoids.ai?subject=Super%20Humanoids">Start a conversation <span>↗</span></a>
-        </div>
-        <p class="micro">Research-stage company · Artila Robotics Inc.</p>
-      </div>
-      <figure class="hero-media reveal delay-1">
-        <img src="assets/sequence.png" alt="One reconfigurable robot shown in walking, transforming, and rolling configurations">
-        <figcaption><span>Fig. 01</span> Cross-embodiment study · Concept visualization</figcaption>
-      </figure>
-    </section>
+  <main id="main">
+    <!-- 1 · Hero: scroll scrubs a rendered humanoid sequence -->
+    <section class="scrub hero" id="top" data-seq="humanoid" data-frames="90" style="--len: 280vh">
+      <div class="stage">
+        <canvas class="seq" aria-hidden="true"></canvas>
+        <div class="scrim"></div>
 
-    <section class="status-band">
-      <div class="shell status-grid reveal">
-        <div><small>STAGE</small><strong>Research · Pre-MVP</strong></div>
-        <div><small>FIRST PROOF</small><strong>Cross-body simulation</strong></div>
-        <div><small>FOCUS</small><strong>Robotics foundation models</strong></div>
-      </div>
-    </section>
-
-    <section class="problem band" id="product">
-      <div class="shell split">
-        <div class="section-head reveal">
-          <p class="eyebrow">The problem</p>
-          <h2>Robot intelligence is trapped inside the body it was trained on.</h2>
-        </div>
-        <div class="statement reveal delay-1">
-          <p>Most robot policies are built around one morphology, one sensor arrangement and a narrow task distribution. Change the body and much of the intelligence must be rebuilt.</p>
-          <p class="accent-line">Our hypothesis: a shared model can learn reusable representations of bodies, tasks and physical interaction.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="modes shell">
-      <div class="section-head row reveal">
-        <div><p class="eyebrow">Embodiment testbed</p><h2>Different bodies. Shared intelligence.</h2></div>
-        <p class="section-note">Reconfiguration is our hardest test: can one model retain useful physical knowledge as the body itself changes?</p>
-      </div>
-      <div class="mode-grid">
-        <article class="mode-card reveal">
-          <div class="image-wrap"><img src="assets/m-walk.jpg" alt="Robot in bipedal walking configuration"><span>01 / WALK</span></div>
-          <h3>Bipedal embodiment</h3><p>A high-degree-of-freedom body for studying locomotion, balance, perception and articulated manipulation.</p>
-        </article>
-        <article class="mode-card reveal delay-1">
-          <div class="image-wrap"><img src="assets/m-climb.jpg" alt="Robot in four-limbed climbing configuration"><span>02 / CLIMB</span></div>
-          <h3>Climbing embodiment</h3><p>A four-contact configuration for studying body-aware planning, contact transitions and load redistribution.</p>
-        </article>
-        <article class="mode-card reveal delay-2">
-          <div class="image-wrap"><img src="assets/m-roll.jpg" alt="Robot in compact wheeled configuration"><span>03 / ROLL</span></div>
-          <h3>Wheeled embodiment</h3><p>A compact configuration for studying efficient navigation while preserving a shared representation of the machine.</p>
-        </article>
-      </div>
-      <p class="concept-note">These are concept visualizations of a future research platform—not photographs of existing hardware.</p>
-    </section>
-
-    <section class="architecture band" id="technology">
-      <div class="shell">
-        <div class="section-head row reveal">
-          <div><p class="eyebrow">Foundation-model thesis</p><h2>Pretrain once. Adapt across embodiments.</h2></div>
-          <p class="section-note">The body may change. Useful representations of the physical world should transfer.</p>
-        </div>
-        <div class="architecture-grid reveal delay-1">
-          <div class="arch-copy">
-            <div class="arch-step active" data-step="0"><span>01</span><div><h3>Encode the body</h3><p>Represent morphology, sensors and actuation explicitly so the model can condition behaviour on the machine it controls.</p></div></div>
-            <div class="arch-step" data-step="1"><span>02</span><div><h3>Pretrain across experience</h3><p>Learn reusable physical representations from diverse simulated bodies, tasks, contacts and failure modes.</p></div></div>
-            <div class="arch-step" data-step="2"><span>03</span><div><h3>Adapt, then ground</h3><p>Fine-tune for a new embodiment and close the simulation-to-reality gap through measured hardware experience.</p></div></div>
-          </div>
-          <div class="system-visual" aria-label="Technical control architecture diagram">
-            <div class="core"><span>SH</span><small>FOUNDATION</small></div>
-            <div class="orbit orbit-a"><span>EMBODIMENT</span></div>
-            <div class="orbit orbit-b"><span>ACTION</span></div>
-            <div class="orbit orbit-c"><span>WORLD MODEL</span></div>
-            <div class="grid-lines"></div>
+        <div class="hero-copy">
+          <h1 class="hero-title" aria-label="One intelligence. Many bodies.">
+            <span class="line"><span>One intelligence.</span></span>
+            <span class="line"><span>Many bodies.</span></span>
+          </h1>
+          <p class="lede">We are building a foundation model for robots: a single learned intelligence meant to control humanoids, legged machines and arms, instead of one policy per body.</p>
+          <div class="actions">
+            <a class="btn solid" href="#bodies">See the bodies</a>
+            <a class="btn" href="mailto:hello@superhumanoids.ai?subject=Super%20Humanoids">Start a conversation</a>
           </div>
         </div>
+
+        <aside class="telemetry" aria-label="Joint telemetry for the frame on screen">
+          <header>
+            <svg class="triad" viewBox="0 0 40 40" aria-hidden="true">
+              <line x1="12" y1="28" x2="34" y2="28" class="ax-x" />
+              <line x1="12" y1="28" x2="26" y2="16" class="ax-y" />
+              <line x1="12" y1="28" x2="12" y2="5" class="ax-z" />
+            </svg>
+            <div><strong>Right arm</strong><span>Humanoid, 43 actuators</span></div>
+          </header>
+          <dl data-telemetry="humanoid">
+            <div><dt>Shoulder pitch</dt><dd data-j="right_shoulder_pitch_joint">0.00</dd></div>
+            <div><dt>Shoulder roll</dt><dd data-j="right_shoulder_roll_joint">0.00</dd></div>
+            <div><dt>Shoulder yaw</dt><dd data-j="right_shoulder_yaw_joint">0.00</dd></div>
+            <div><dt>Elbow</dt><dd data-j="right_elbow_joint">0.00</dd></div>
+          </dl>
+          <footer><span>rad</span><span class="clock" data-clock>t 0.00 s</span></footer>
+        </aside>
+
+        <div class="scroll-cue" aria-hidden="true"><span></span></div>
       </div>
     </section>
 
-    <section class="field shell">
-      <figure class="field-image reveal"><img src="assets/field.jpg" alt="Concept visualization of a reconfigurable robot inside a large industrial facility"></figure>
-      <div class="field-copy reveal delay-1">
-        <p class="eyebrow">First proving ground</p>
-        <h2>Industrial sites demand more than one kind of body.</h2>
-          <p>Complex facilities offer a demanding test for cross-embodiment intelligence: one mission may require floor transit, human-scale access, vertical traversal and manipulation.</p>
-        <div class="value-list">
-          <div><span>01</span><p><strong>Learn across bodies</strong>Test whether physical representations transfer when morphology and contact patterns change.</p></div>
-          <div><span>02</span><p><strong>Measure adaptation</strong>Track how much data and training a new configuration needs to acquire a task.</p></div>
-          <div><span>03</span><p><strong>Compound experience</strong>Turn every embodiment and task into data for the shared model family.</p></div>
+    <!-- 2 · The problem -->
+    <section class="problem wrap">
+      <p class="big">Today, robot intelligence is trapped inside the body it was trained on. Change the legs, the sensors or the reach, and most of what the robot knew has to be learned again.</p>
+      <p class="aside">We think that is a data problem, not a law of nature. A model that has seen many bodies should learn what they share: contact, balance, reach, cause and effect.</p>
+    </section>
+
+    <!-- 3 · Bodies: two sequences scrubbed in one pinned stage -->
+    <section class="scrub bodies" id="bodies" data-seq="quadruped,arm" data-frames="90" style="--len: 420vh">
+      <div class="stage">
+        <canvas class="seq" aria-hidden="true"></canvas>
+        <canvas class="seq seq-b" aria-hidden="true"></canvas>
+        <div class="scrim side"></div>
+
+        <div class="body-panel">
+          <h2 class="body-head">Different bodies.<br>One model underneath.</h2>
+          <ol class="body-list">
+            <li class="is-on" data-body="0">
+              <h3>Quadruped</h3>
+              <p>Four legs and a trunk. A test of gait, terrain and recovery: the same physics a humanoid uses, with a different body around it.</p>
+              <dl class="spec">
+                <div><dt>Actuators</dt><dd>12</dd></div>
+                <div><dt>Mass</dt><dd>15.2 kg</dd></div>
+              </dl>
+            </li>
+            <li data-body="1">
+              <h3>Arm</h3>
+              <p>Seven joints and a gripper, bolted to the floor. A test of reach, grasp and precision, where the body never has to balance at all.</p>
+              <dl class="spec">
+                <div><dt>Actuators</dt><dd>8</dd></div>
+                <div><dt>Mass</dt><dd>17.5 kg</dd></div>
+              </dl>
+            </li>
+          </ol>
+          <div class="body-rail" aria-hidden="true"><i></i></div>
         </div>
       </div>
     </section>
 
-    <section class="roadmap band" id="roadmap">
-      <div class="shell">
-        <div class="section-head row reveal">
-          <div><p class="eyebrow">Development roadmap</p><h2>From dataset to embodied foundation model.</h2></div>
-        <p class="section-note">A proposed milestone path from research thesis to a measurable cross-embodiment MVP.</p>
+    <!-- 4 · Live physics in the browser -->
+    <section class="live" id="live" aria-labelledby="live-title">
+      <div class="wrap live-head">
+        <h2 id="live-title">Push it yourself.</h2>
+        <p>This is the physics engine we train in, running in your browser. The controllers here are simple and hand-written, not our model. They show the physics a general model has to master.</p>
+      </div>
+      <div class="live-stage" data-sim>
+        <canvas tabindex="0" aria-label="Interactive physics simulation. Drag, or use the arrow keys once focused." aria-describedby="sim-hint"></canvas>
+        <div class="live-poster">
+          <button class="btn solid big" type="button" data-sim-start>Start the live simulation</button>
+          <p class="live-note" data-sim-note>Downloads about 6&nbsp;MB. Runs best on a laptop or desktop.</p>
         </div>
-        <div class="timeline reveal delay-1">
-          <article><span class="marker">01</span><small>DATA</small><h3>Multi-body simulation</h3><p>Create a structured dataset spanning simplified bodies, tasks, contacts and failures.</p></article>
-          <article><span class="marker">02</span><small>FIRST MVP</small><h3>Shared policy pretraining</h3><p>Train one model family across multiple simulated embodiments instead of one policy per body.</p></article>
-          <article><span class="marker">03</span><small>BENCHMARK</small><h3>Cross-body transfer</h3><p>Measure adaptation speed and task success on a held-out morphology.</p></article>
-          <article><span class="marker">04</span><small>GROUNDING</small><h3>Hardware validation</h3><p>Transfer a constrained capability to a physical test rig and measure the reality gap.</p></article>
+        <div class="live-ui" hidden>
+          <div class="seg" role="group" aria-label="Choose a body">
+            <button type="button" data-sim-body="quadruped" aria-pressed="true">Quadruped</button>
+            <button type="button" data-sim-body="arm" aria-pressed="false">Arm</button>
+          </div>
+          <p class="live-hint" id="sim-hint" data-sim-hint></p>
+          <div class="live-actions">
+            <button class="btn" type="button" data-sim-grip aria-pressed="false" hidden>Close gripper</button>
+            <button class="btn" type="button" data-sim-reset>Reset</button>
+          </div>
+          <p class="live-status" data-sim-status aria-live="polite"></p>
         </div>
-        <p class="sample-flag">Sample roadmap—replace stages and timing with verified company milestones before publishing publicly.</p>
+        <span class="live-clock" data-sim-clock></span>
       </div>
     </section>
 
-    <section class="proof shell">
-      <div class="section-head reveal"><p class="eyebrow">Current stage</p><h2>A foundation-model thesis before a working model.</h2></div>
-      <div class="proof-panel reveal delay-1">
-        <div><span class="status"><i></i> Pre-MVP</span><h3>The immediate objective is a narrow cross-embodiment benchmark.</h3><p>We are not presenting a trained foundation model or working robot today. The first proof point is one shared policy that completes a measurable task across simplified virtual bodies.</p></div>
-        <div class="proof-slots">
-          <span>MULTI-BODY DATASET</span><span>TRANSFER METRIC</span><span>REPRODUCIBLE DEMO</span>
-        </div>
+    <!-- 5 · Approach: a real three-step sequence -->
+    <section class="approach wrap" id="approach">
+      <h2>Pretrain once.<br>Adapt to each body.</h2>
+      <ol class="steps">
+        <li>
+          <span class="n">1</span>
+          <h3>Describe the body</h3>
+          <p>Joints, limits, sensors and mass go in as input. The model knows what it is driving before it moves.</p>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <h3>Learn from many machines</h3>
+          <p>Pretrain on simulated experience across many bodies, tasks, contacts and failures, so physical knowledge is shared instead of siloed.</p>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <h3>Adapt, then ground it</h3>
+          <p>Fine-tune for a new body with little data, then close the gap between simulation and hardware with measured real-world runs.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 6 · Roadmap -->
+    <section class="roadmap" id="roadmap">
+      <div class="wrap">
+        <h2>Proposed milestones</h2>
+        <p class="sub">From a multi-body dataset to a model that transfers to a body it has never seen.</p>
+        <ol class="timeline">
+          <li><h3>Multi-body dataset</h3><p>Simulated experience across simplified bodies, tasks, contacts and failures.</p></li>
+          <li><h3>Shared pretraining</h3><p>One model family trained across several bodies, replacing one policy per body.</p></li>
+          <li><h3>Transfer benchmark</h3><p>Adaptation speed and task success measured on a held-out body.</p></li>
+          <li><h3>Hardware validation</h3><p>A narrow capability moved to a physical rig, with the reality gap measured.</p></li>
+        </ol>
       </div>
     </section>
 
-    <section class="cta band">
-      <div class="shell cta-inner reveal">
-        <p class="eyebrow">Industrial partners · technical talent</p>
-        <h2>The body is only the beginning.</h2>
-        <p>We are at the beginning: defining the first cross-embodiment dataset and looking for technical collaborators who want to test the foundation-model hypothesis.</p>
-        <a class="button primary" href="mailto:hello@superhumanoids.ai">hello@superhumanoids.ai <span>↗</span></a>
+    <!-- 7 · Where we are -->
+    <section class="today wrap">
+      <div class="today-card">
+        <p class="state"><i></i>Research stage, before a first model</p>
+        <h2>We are not showing you a trained model yet.</h2>
+        <p>The first proof is narrow on purpose: one shared policy that completes a measurable task across several simulated bodies. Every robot on this page is a simulation render of an open model, not hardware we have built.</p>
       </div>
+    </section>
+
+    <!-- 8 · Contact -->
+    <section class="contact wrap">
+      <h2>The body is only the beginning.</h2>
+      <p>We are looking for industrial partners with hard, multi-body problems and engineers who want to test this idea with us.</p>
+      <a class="btn solid big" href="mailto:hello@superhumanoids.ai">hello@superhumanoids.ai</a>
     </section>
   </main>
 
-  <footer class="shell footer">
-    <a class="brand" href="#top">SUPER<span>·</span>HUMANOIDS</a>
-    <p>Artila Robotics Inc. · Delaware, United States</p>
-    <p>Sample concept site · © 2026</p>
+  <footer class="foot wrap">
+    <p translate="no">superhumanoids.ai</p>
+    <p>© 2026 Super Humanoids</p>
   </footer>
-  <script src="script.js"></script>
+
+  <script src="vendor/gsap/gsap.min.js" defer></script>
+  <script src="vendor/gsap/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lenis.min.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
