@@ -60,8 +60,13 @@ h1, h2 { text-wrap: balance; }
   transition: background .25s var(--ease), backdrop-filter .25s var(--ease);
 }
 .nav.solid { background: rgb(29 30 31 / .72); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
-.brand { font-weight: 600; font-size: 16px; letter-spacing: -.01em; }
-.nav nav { display: flex; gap: 28px; margin-left: auto; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; letter-spacing: -.01em; }
+.mark { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.mark circle { fill: var(--ground); stroke: var(--blue); stroke-width: 1.8; }
+.nav nav { position: relative; display: flex; gap: 28px; margin-left: auto; }
+.nav nav a[aria-current] { color: var(--paper); }
+.nav-mark { position: absolute; left: 0; bottom: -7px; width: 1px; height: 1px; background: var(--paper); transform-origin: left;
+  opacity: 0; transition: transform .25s var(--ease), opacity .2s var(--ease); }
 .nav nav a { font-size: 14px; color: var(--dust); transition: color .2s; }
 .nav-cta { font-size: 14px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; transition: border-color .2s, background .2s; }
 
@@ -99,6 +104,17 @@ h1, h2 { text-wrap: balance; }
   .bodies .stage { background-image: url(assets/frames/quadruped/m/0000.webp); }
 }
 .seq-b { opacity: 0; }
+.overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+/* boot: the studio lights come up from the floor while a scan line climbs the body */
+.boot { display: none; }
+.js .boot {
+  display: block; position: absolute; inset: -2% 0 0; pointer-events: none;
+  background: linear-gradient(to top, transparent 0, var(--ground) 16%, var(--ground) 100%);
+  transition: transform 1.7s var(--ease-in-out) .1s;
+}
+.js .boot::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgb(236 235 231 / .55); transition: opacity .6s var(--ease) 1.4s; }
+.js.ready .boot { transform: translateY(-104%); }
+.js.ready .boot::before { opacity: 0; }
 .scrim { position: absolute; inset: 0; pointer-events: none;
   background:
     linear-gradient(to top, rgb(29 30 31 / .92) 0%, rgb(29 30 31 / .35) 34%, transparent 58%),
@@ -136,9 +152,8 @@ h1, h2 { text-wrap: balance; }
 .telemetry {
   position: absolute; right: var(--gutter); bottom: clamp(36px, 9vh, 96px);
   width: 260px; padding: 16px 18px 14px;
-  background: rgb(29 30 31 / .55);
+  background: rgb(29 30 31 / .8);   /* opaque instead of backdrop blur: blurring a canvas that changes every frame is costly */
   border: 1px solid var(--line); border-radius: 10px;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   font-size: 13px;
   transition: opacity 1s var(--ease) .9s;
 }
@@ -234,7 +249,13 @@ h1, h2 { text-wrap: balance; }
 .timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--line); }
 .timeline li { position: relative; padding: 36px 32px 0 0; }
 .timeline li::before { content: ""; position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--slab); border: 1px solid var(--dust); }
-.timeline li:first-child::before { background: var(--paper); border-color: var(--paper); box-shadow: 0 0 0 6px rgb(236 235 231 / .1); }
+.timeline li::before { transition: background .25s var(--ease), border-color .25s var(--ease); }
+.timeline li.is-reached::before { background: var(--paper); border-color: var(--paper); }
+.timeline li.is-reached h3 { color: var(--paper); }
+.timeline h3 { transition: color .25s var(--ease); }
+.timeline .track { position: absolute; left: 0; right: 0; top: 6px; height: 1px; padding: 0; background: var(--paper); transform-origin: left; transform: scaleX(0); }
+.timeline .track::before { display: none; }
+.problem .big .w { transition: opacity .2s linear; }
 .timeline h3 { font-size: 19px; font-weight: 500; letter-spacing: -.01em; margin-bottom: 8px; }
 .timeline p { color: var(--dust); font-size: 15px; }
 
@@ -247,7 +268,7 @@ h1, h2 { text-wrap: balance; }
 .today-card > p:last-child { color: #c9c8c4; font-size: 18px; }
 
 /* ---------- contact + footer ---------- */
-.contact { padding: clamp(120px, 20vh, 220px) 0; text-align: center; }
+.contact { padding: clamp(140px, 24vh, 260px) 0; text-align: center; }
 .contact h2 { font-size: clamp(44px, 6.6vw, 96px); font-weight: 300; letter-spacing: -.038em; text-wrap: balance; }
 .contact p { color: var(--dust); max-width: 32em; margin: 28px auto 40px; font-size: 18px; }
 .foot { display: flex; justify-content: space-between; gap: 40px; padding: 36px 0 48px; border-top: 1px solid var(--line); font-size: 13px; color: var(--dust); }
@@ -259,6 +280,7 @@ h1, h2 { text-wrap: balance; }
   .timeline { grid-template-columns: 1fr; }
   .timeline::before { left: 6px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
   .timeline li { padding: 0 0 40px 40px; }
+  .timeline .track { left: 6px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; transform-origin: top; transform: scaleY(0); }
   .foot { grid-template-columns: 1fr; gap: 12px; }
 }
 @media (max-width: 720px) {
@@ -294,6 +316,7 @@ h1, h2 { text-wrap: balance; }
 
 @media (prefers-reduced-motion: reduce) {
   .js .hero-title .line > span, .js .lede, .js .actions, .js .telemetry { transition: opacity .3s; transform: none; }
+  .js .boot { display: none; }
   .body-list li { transform: none; }
   .live-stage canvas, .live-poster { transition-duration: .2s; }
   .scroll-cue span { animation: none; }

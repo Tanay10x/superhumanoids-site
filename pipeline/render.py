@@ -20,6 +20,7 @@ ap.add_argument("--samples", type=int, default=160)
 ap.add_argument("--res", default="1920x1080")
 ap.add_argument("--save", action="store_true")
 ap.add_argument("--portrait", action="store_true")  # phone framing: centred, every other frame
+ap.add_argument("--project", action="store_true")   # no render: export joint screen positions per frame
 A = ap.parse_args(argv)
 W, H = map(int, A.res.split("x"))
 HDRI = "/home/tanay/sh-build/hdri/studio.exr"
@@ -145,7 +146,9 @@ def get_mat(kind, rgba):
 # --- robot from mujoco -------------------------------------------------------
 model, frames, extras = motion.ROBOTS[A.robot](A.frames)
 data = mujoco.MjData(model)
-SKIP_MESHES = {"logo_link"}  # vendor wordmark (humanoid)
+SKIP_MESHES = {"logo_link",                                   # humanoid: chest wordmark
+               "link6_1", "link6_3", "link6_4", "link6_5", "link6_6",  # arm: wrist emblem + button labels
+               "link6_9", "link6_11", "link6_13", "link5_1", "link0_7", "link0_11"}  # arm: decals and base lettering
 # quadruped wordmark: base_3 is the lettering infill; painting it like the shell fills the engraving flush
 SAME_AS_SHELL = {"base_3"}
 geoms = [g for g in range(model.ngeom) if model.geom_group[g] == 2 and model.geom_type[g] == mujoco.mjtGeom.mjGEOM_MESH
@@ -312,6 +315,30 @@ def cam_at(t):
     cam.location = pos
     cam.rotation_euler = (Vector((tx, ty, tz)) - pos).to_track_quat("-Z", "Y").to_euler()
     cam_d.dof.focus_distance = (Vector((tx, ty, tz)) - pos).length
+
+# --- joint projection export (drives the page's perception overlay) ------------
+TRACK = {
+    "humanoid": [("right_shoulder_pitch_joint", "R shoulder"), ("right_elbow_joint", "R elbow"), ("right_wrist_roll_joint", "R wrist"),
+           ("left_shoulder_pitch_joint", "L shoulder"), ("waist_yaw_joint", "Waist"), ("left_knee_joint", "L knee"),
+           ("right_knee_joint", "R knee"), ("left_ankle_pitch_joint", "L ankle")],
+    "quadruped": [("FL_thigh_joint", "FL hip"), ("FL_calf_joint", "FL knee"), ("FR_thigh_joint", "FR hip"), ("FR_calf_joint", "FR knee"),
+            ("RL_thigh_joint", "RL hip"), ("RL_calf_joint", "RL knee"), ("RR_thigh_joint", "RR hip"), ("RR_calf_joint", "RR knee")],
+    "arm": [("joint1", "J1"), ("joint2", "J2"), ("joint3", "J3"), ("joint4", "J4"), ("joint5", "J5"), ("joint6", "J6"), ("joint7", "J7")],
+}[A.robot]
+if A.project:
+    from bpy_extras.object_utils import world_to_camera_view
+    jids = [mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, n) for n, _ in TRACK]
+    out = {"labels": [l for _, l in TRACK], "fps": 30, "frames": []}
+    for i in range(A.frames):
+        data.qpos[:] = frames[i]; mujoco.mj_kinematics(model, data)
+        cam_at(i / max(1, A.frames - 1)); bpy.context.view_layer.update()
+        row = []
+        for j in jids:
+            p = world_to_camera_view(scn, cam, Vector(data.xanchor[j]))
+            row.append([round(p.x, 4), round(1 - p.y, 4), round(float(frames[i][model.jnt_qposadr[j]]), 3)])
+        out["frames"].append(row)
+    json.dump(out, open(A.out, "w"), separators=(",", ":"))
+    print("PROJECTED", A.out); sys.exit(0)
 
 # --- render ------------------------------------------------------------------
 os.makedirs(A.out, exist_ok=True)

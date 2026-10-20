@@ -29,6 +29,7 @@
 
   <header class="nav">
     <a class="brand" href="#top" aria-label="Super Humanoids, back to top" translate="no">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17h13M7 17l9-7.5M7 17V3" /><circle cx="7" cy="17" r="2.6" /></svg>
       Super Humanoids
     </a>
     <nav aria-label="Main">
@@ -36,6 +37,7 @@
       <a href="#live">Try it</a>
       <a href="#approach">Approach</a>
       <a href="#roadmap">Roadmap</a>
+      <i class="nav-mark" aria-hidden="true"></i>
     </nav>
     <a class="nav-cta" href="mailto:hello@superhumanoids.ai">Contact us</a>
   </header>
@@ -46,6 +48,8 @@
       <div class="stage">
         <canvas class="seq" aria-hidden="true"></canvas>
         <div class="scrim"></div>
+        <canvas class="overlay" aria-hidden="true"></canvas>
+        <div class="boot" aria-hidden="true"></div>
 
         <div class="hero-copy">
           <h1 class="hero-title" aria-label="One intelligence. Many bodies.">
@@ -74,7 +78,7 @@
             <div><dt>Shoulder yaw</dt><dd data-j="right_shoulder_yaw_joint">0.00</dd></div>
             <div><dt>Elbow</dt><dd data-j="right_elbow_joint">0.00</dd></div>
           </dl>
-          <footer><span>rad</span><span class="clock" data-clock>t 0.00 s</span></footer>
+          <footer><span>degrees</span><span class="clock" data-clock>t 0.00 s</span></footer>
         </aside>
 
         <div class="scroll-cue" aria-hidden="true"><span></span></div>
@@ -93,6 +97,7 @@
         <canvas class="seq" aria-hidden="true"></canvas>
         <canvas class="seq seq-b" aria-hidden="true"></canvas>
         <div class="scrim side"></div>
+        <canvas class="overlay" aria-hidden="true"></canvas>
 
         <div class="body-panel">
           <h2 class="body-head">Different bodies.<br>One model underneath.</h2>
@@ -175,6 +180,7 @@
         <h2>Proposed milestones</h2>
         <p class="sub">From a multi-body dataset to a model that transfers to a body it has never seen.</p>
         <ol class="timeline">
+          <li class="track" aria-hidden="true"></li>
           <li><h3>Multi-body dataset</h3><p>Simulated experience across simplified bodies, tasks, contacts and failures.</p></li>
           <li><h3>Shared pretraining</h3><p>One model family trained across several bodies, replacing one policy per body.</p></li>
           <li><h3>Transfer benchmark</h3><p>Adaptation speed and task success measured on a held-out body.</p></li>
@@ -193,10 +199,12 @@
     </section>
 
     <!-- 8 · Contact -->
-    <section class="contact wrap">
+    <section class="contact">
+      <div class="wrap contact-inner">
       <h2>The body is only the beginning.</h2>
       <p>We are looking for industrial partners with hard, multi-body problems and engineers who want to test this idea with us.</p>
       <a class="btn solid big" href="mailto:hello@superhumanoids.ai">hello@superhumanoids.ai</a>
+      </div>
     </section>
   </main>
 
